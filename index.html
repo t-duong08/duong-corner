@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Duong's corner - Recommended Products</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #fcfbf9;
+      background-image: url('./bg2.png');
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
+      color: #3e3a37;
+    }
+
+    .glassmorphism {
+      background: rgba(253, 251, 247, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+    }
+
+    .product-card-shadow {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .product-card-hover {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .product-card-hover:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(239, 68, 68, 0.15);
+    }
+
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+
+    .scrollbar-hide {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            accent: { light: '#fecaca', DEFAULT: '#ef4444', dark: '#b91c1c' }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    const productsData = [
+      { id: "7", name: "Áo thun Holiday Vietnam Cotton (Bé trai/gái)", category: "Clothing", price: "160.000₫", image: "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-mc5r85sq0k8i1b", link: "https://shopee.vn/product/907898485/41801825398?exp_group=rollout&fbclid=IwY2xjawRC2D1leHRuA2FlbQIxMABicmlkETE2Y1ZXMEc4ekV4Qk03enhVc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHuGGwnFAJxmQTMxFWn8CMxT9mV6R9z8h3GQT0gGU4obAYMZs3kyR7sIazU_S_aem_XrRsPaqyaq162DqgNKDB2Q&gads_t_sig=VTJGc2RHVmtYMTlxTFVSVVRrdENkU2JFTVEwRERXdk0raE8zenp3RHFhbEFuZVBaeVc5ZzBBazBJaGNzdThhMVFWVXExZUl6NmZvZEpGbXJTM05GcVZiMG1aMzcxdno1Vk5UcUE4SW5lT3dBUW1rM0tuam9oeWNTNmpIckw4bmNKcUNRaEdEWGpsY0V6VFpXdncvTFdGbHRSME9FS1p0b2xlaG91cTNoVDVkaGtRVFBlamk2bFlpU2YwblMvVThT&mmp_pid=an_17306620157&uls_trackid=55bpaf6c00qf&utm_campaign=id_Zs2TkeW9ch&utm_content=----&utm_medium=affiliates&utm_source=an_17306620157&utm_term=epy14k4m9wj5", review: "Áo thun cotton Holiday Vietnam siêu xinh cho bé, mặc mùa hè đi biển là hết bài luôn các vợ ơi!", recommended: true },
+      { id: "8", name: "Mũ cói đi biển LOULI SAIGON", category: "Accessories", price: "94.000₫", image: "https://down-vn.img.susercontent.com/file/vn-11134207-7ra0g-ma5dut5vmh1485", link: "https://shopee.vn/product/906790672/25993074453?exp_group=rollout&fbclid=IwY2xjawRC3h5leHRuA2FlbQIxMABicmlkETE2Y1ZXMEc4ekV4Qk03enhVc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHvQq7A898qWov4BudzmkjRioLRVhquf4w4sdAGLiKLy_sNDsTcg07jMqI7Zj_aem_fZ1zHCDGmWu3FL6zfacoEw&gads_t_sig=VTJGc2RHVmtYMTlxTFVSVVRrdENkU2JFTVEwRERXdk0raE8zenp3RHFhbEFuZVBaeVc5ZzBBazBJaGNzdThhMUdzVFE5ZmVZZ2hZdE5JSlZpVjJDSWFObmRDRld6MXgvczY2OTN1QTBQRHd4NXRVRGRyQ1RnT2V2VVJlTkY2ejRuc0FMTUtDZEFRVWhYVklESzhJNFNDTTlrTlVjb1ZXOUFua1FyZWE5YzFxK3lzQVluMzJsd2MwM0ZpOU9yL3NO&mmp_pid=an_17306620157&uls_trackid=55bpf28700pl&utm_campaign=id_VdyFQg7uCF&utm_content=----&utm_medium=affiliates&utm_source=an_17306620157&utm_term=epy4ntpkiua9", review: "Chiếc mũ cói hở đầu siêu thời trang, vành rộng chống nắng cực tốt cho các nàng đi biển đây ạ!", recommended: true },
+      { id: "9", name: "Xe đạp ba bánh chòi chân 3in1 SPORT", category: "Baby products", price: "235.000₫", image: "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m1ad9anzk7bw50", link: "https://shopee.vn/product/126431486/7016923625", review: "Xe đa năng cho bé tập đi, cực kỳ chắc chắn và an toàn.", recommended: true },
+      { id: "10", name: "Set pijama dáng dài sọc caro", category: "Clothing", price: "185.000₫", image: "https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-llt5wa1cebq79f", link: "https://shopee.vn/product/148607045/14293952481", review: "Bộ mặc nhà siêu cưng, vải thô mềm mặc mát lắm luôn.", recommended: false },
+      { id: "11", name: "Quần jeans ống rộng Daughter Jeans", category: "Clothing", price: "450.000₫", image: "https://down-vn.img.susercontent.com/file/vn-11134207-820l4-mgrg9qhgsc2359", link: "https://shopee.vn/product/70804043/27465664372", review: "Form loose fit cực tôn dáng, mặc đi làm đi chơi đều cực chất.", recommended: true },
+      { id: "12", name: "Túi Tote Leacat thời trang", category: "Accessories", price: "120.000₫", image: "https://down-vn.img.susercontent.com/file/cn-11134208-7ras8-m3zscwibaluv3b", link: "https://shopee.vn/product/163313806/28321713920", review: "Túi đựng được nhiều đồ, phong cách basic dễ phối đồ.", recommended: false },
+      { id: "13", name: "Áo thun tay lỡ hàn SOMS | Loli Tee", category: "Clothing", price: "155.000₫", image: "https://down-vn.img.susercontent.com/file/vn-11134207-81ztc-mmigvj1115ov16", link: "https://shopee.vn/product/199383221/26262776063", review: "Chất thun mịn, form rộng mặc thoải mái cực kỳ.", recommended: false },
+      { id: "14", name: "Chân váy linen form lửng SOMS", category: "Clothing", price: "210.000₫", image: "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-mc6705wkoset7b", link: "https://shopee.vn/product/199383221/28888662986", review: "Chất linen mát mẻ, form lửng nhẹ nhàng nữ tính.", recommended: false },
+      { id: "15", name: "Quần kaki nữ ống suông Nan Trousers", category: "Clothing", price: "285.000₫", image: "https://down-vn.img.susercontent.com/file/vn-11134258-81ztc-mm73dsuzgkr37a", link: "https://shopee.vn/product/283162524/56403350176", review: "Quần kaki form suông basic, cực dễ mix match.", recommended: true },
+      { id: "16", name: "Chân váy JEANS suông dài ÁIMEE", category: "Clothing", price: "320.000₫", image: "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m13oe2ei75srce", link: "https://shopee.vn/product/35007929/29413469908", review: "Chân váy denim suông dài hack dáng siêu đỉnh.", recommended: true }
+    ];
+
+    // Minimal Custom Router
+    const useHashPath = () => {
+      const [path, setPath] = useState(window.location.hash.replace(/^#/, '') || '/');
+      useEffect(() => {
+        const onHashChange = () => setPath(window.location.hash.replace(/^#/, '') || '/');
+        window.addEventListener('hashchange', onHashChange);
+        return () => window.removeEventListener('hashchange', onHashChange);
+      }, []);
+      return path;
+    };
+
+    const Link = ({ to, children, className }) => (
+      <a href={`#${to}`} className={className}>{children}</a>
+    );
+
+    const SvgIcon = ({ d, size = 24 }) => (
+      <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d={d} /></svg>
+    );
+    const HeartIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" /></svg>;
+    const TulipIcon = ({ size = 20 }) => (
+      <img src="./logo.png" style={{ width: size, height: size, objectFit: 'contain' }} alt="Tulip Logo" />
+    );
+    const BagIcon = () => <SvgIcon d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z M3 6h18 M16 10a4 4 0 0 1-8 0" size={16} />;
+    const ArrowLeftIcon = () => <SvgIcon d="m12 19-7-7 7-7 M19 12H5" size={20} />;
+    const ShoppingCartIcon = () => <SvgIcon d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4ZM3 6h18 M16 10a4 4 0 0 1-8 0" size={24} />;
+
+    const ProductCard = ({ product }) => (
+      <a href={product.link} target="_blank" rel="noopener noreferrer" className="group block rounded-2xl glassmorphism product-card-shadow product-card-hover overflow-hidden">
+        <div className="relative aspect-square overflow-hidden bg-[#fdfbf7]">
+          <img src={product.image} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
+          {product.recommended && <div className="absolute top-2 left-2 bg-accent text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm">Gợi ý</div>}
+        </div>
+        <div className="p-4">
+          <p className="text-sm text-gray-500 mb-1">{product.category}</p>
+          <h3 className="text-gray-900 font-semibold mb-2 line-clamp-1 group-hover:text-accent transition-colors">{product.name}</h3>
+          <div className="flex items-center justify-between">
+            <span className="text-accent font-bold text-lg">{product.price}</span>
+            <div className="w-8 h-8 rounded-full bg-accent-light/30 flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-white transition-colors">
+              <BagIcon />
+            </div>
+          </div>
+        </div>
+      </a>
+    );
+
+    const Navbar = ({ path }) => {
+      const isHome = path === '/';
+      return (
+        <nav className="fixed top-0 left-0 right-0 z-50 glassmorphism border-b border-gray-100 shadow-sm">
+          <div className="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
+            <Link to="/" className="flex items-center gap-2">
+              <div className="bg-accent text-white p-1.5 rounded-lg shadow-sm"><TulipIcon size={20} /></div>
+              <span className="font-bold text-xl tracking-tight text-gray-900">Duong's corner</span>
+            </Link>
+            <div className="hidden md:flex items-center gap-6 text-sm font-medium">
+              <Link to="/" className={`hover:text-accent transition-colors ${isHome ? 'text-accent' : 'text-gray-600'}`}>Home</Link>
+              <Link to="/category/Clothing" className="text-gray-600 hover:text-accent transition-colors">Clothing</Link>
+              <Link to="/category/Accessories" className="text-gray-600 hover:text-accent transition-colors">Accessories</Link>
+              <Link to="/category/Shoes" className="text-gray-600 hover:text-accent transition-colors">Shoes</Link>
+            </div>
+          </div>
+        </nav>
+      );
+    };
+
+    const Home = () => {
+      const recs = productsData.filter(p => p.recommended);
+      const others = productsData.filter(p => !p.recommended);
+      const cats = [
+        { id: 'Clothing', name: 'Quần áo', icon: '👕' },
+        { id: 'Accessories', name: 'Phụ kiện', icon: '🧢' },
+        { id: 'Shoes', name: 'Giày dép', icon: '👟' },
+        { id: 'Baby products', name: 'Đồ em bé', icon: '👶' },
+      ];
+      return (
+        <div className="max-w-5xl mx-auto px-4 py-8">
+          <div className="text-center mb-12 py-8 pt-12">
+            <div className="inline-flex items-center justify-center w-28 h-28 bg-white/40 backdrop-blur-sm rounded-full mb-4 shadow-sm border-2 border-white/60 p-2 overflow-hidden">
+              <TulipIcon size="100%" />
+            </div>
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 tracking-tight drop-shadow-sm">
+              Chào mừng các vợ đến góc nhỏ của <span className="text-accent relative inline-block">Dương</span>
+            </h1>
+            <p className="text-gray-700 max-w-lg mx-auto text-lg font-medium drop-shadow-sm">
+              - nơi mà Dương chia sẻ những món đồ "chân ái" -
+            </p>
+          </div>
+
+          <div className="sticky top-16 z-40 py-4 -mx-4 px-4 bg-[#fdfbf7]/60 backdrop-blur-md transition-all duration-300">
+            <div className="flex overflow-x-auto gap-3 md:justify-center scrollbar-hide snap-x">
+              {cats.map((cat) => (
+                <Link key={cat.id} to={`/category/${cat.id}`} className="flex-shrink-0 snap-center glassmorphism border border-white/60 rounded-full px-5 py-2.5 flex items-center gap-2 hover:border-accent hover:shadow-lg hover:-translate-y-1 hover:scale-105 transition-all duration-300 shadow-sm">
+                  <span className="text-xl">{cat.icon}</span><span className="font-medium text-gray-700">{cat.name}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          <div className="mb-12">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">Highly Recommended</h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+              {recs.map(p => <ProductCard key={p.id} product={p} />)}
+            </div>
+          </div>
+
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">Mới cập nhật</h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+              {others.map(p => <ProductCard key={p.id} product={p} />)}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    const Category = ({ categoryId }) => {
+      const cats = productsData.filter(p => p.category === categoryId);
+      const names = { 'Clothing': 'Quần áo', 'Accessories': 'Phụ kiện', 'Shoes': 'Giày dép', 'Baby products': 'Đồ em bé' };
+      const display = names[categoryId] || categoryId;
+      return (
+        <div className="max-w-5xl mx-auto px-4 py-8 pt-12">
+          <Link to="/" className="inline-flex items-center gap-2 text-gray-500 hover:text-accent mb-6 transition-colors"><ArrowLeftIcon /> Quay lại</Link>
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">Danh mục: <span className="text-accent">{display}</span></h1>
+            <p className="text-gray-500">Tìm thấy {cats.length} sản phẩm</p>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+            {cats.map(p => <ProductCard key={p.id} product={p} />)}
+          </div>
+        </div>
+      )
+    };
+
+    const ProductDetail = ({ id }) => {
+      const p = productsData.find(x => x.id === id);
+      if (!p) {
+        window.location.hash = '/';
+        return null;
+      }
+      return (
+        <div className="max-w-4xl mx-auto px-4 py-8 pt-12">
+          <Link to="/" className="inline-flex items-center gap-2 text-gray-700 hover:text-accent mb-8 transition-colors glassmorphism px-4 py-2 rounded-full font-medium"><ArrowLeftIcon /> Quay lại</Link>
+          <div className="flex flex-col md:flex-row gap-8 lg:gap-12 glassmorphism rounded-3xl p-4 md:p-8 shadow-sm border border-white/60">
+            <div className="w-full md:w-1/2 aspect-square rounded-2xl overflow-hidden bg-[#fdfbf7]">
+              <img src={p.image} className="w-full h-full object-cover" />
+            </div>
+            <div className="w-full md:w-1/2 flex flex-col pt-2 md:pt-4">
+              <span className="inline-block px-3 py-1 bg-white/60 text-gray-700 rounded-full text-xs font-semibold uppercase self-start mb-2">{p.category}</span>
+              <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">{p.name}</h1>
+              <div className="text-3xl font-bold text-accent mb-6">{p.price}</div>
+
+              <div className="bg-white/50 border border-white/60 rounded-2xl p-5 mb-8 relative">
+                <h3 className="text-sm font-semibold text-gray-900 mb-2">Review từ Duong</h3>
+                <p className="text-gray-700 italic">"{p.review}"</p>
+              </div>
+
+              <div className="mt-auto pt-4">
+                <a href={p.link} target="_blank" className="flex items-center justify-center gap-3 w-full bg-accent hover:bg-accent-dark text-white font-bold text-lg py-4 px-8 rounded-2xl transition-all shadow-lg hover:-translate-y-1">
+                  <ShoppingCartIcon /> Mua ngay trên Shopee
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      )
+    }
+
+    const App = () => {
+      const path = useHashPath();
+
+      let page = <Home />;
+      if (path.startsWith('/category/')) {
+        const catId = path.split('/')[2];
+        page = <Category categoryId={decodeURIComponent(catId)} />;
+      } else if (path.startsWith('/product/')) {
+        const pId = path.split('/')[2];
+        page = <ProductDetail id={pId} />;
+      }
+
+      return (
+        <div className="flex flex-col min-h-screen">
+          <Navbar path={path} />
+          <main className="flex-grow pt-16">
+            {page}
+          </main>
+          <footer className="glassmorphism mt-12 py-8 text-center text-gray-700 font-medium text-sm border-t-0">
+            &copy; 2026 Duong's corner. Cảm ơn bạn đã ghé thăm!
+          </footer>
+        </div>
+      );
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+
+</html>
