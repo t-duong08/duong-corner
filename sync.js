@@ -3,7 +3,6 @@ import https from 'https';
 import path from 'path';
 
 const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/1mLTaEXsMT3oOodS0wjvYpsfqOWPtsP4eiKBH2h8aeh8/export?format=csv';
-const INDEX_PATH = './index.html';
 
 async function fetchUrl(url) {
   return new Promise((resolve, reject) => {
@@ -98,21 +97,29 @@ async function sync() {
   }
 
   const productsJson = JSON.stringify(products, null, 2);
-  let indexHtml = fs.readFileSync(INDEX_PATH, 'utf8');
-  
-  const startMarker = 'const productsData = [';
-  const endMarker = '];';
-  
-  const startIndex = indexHtml.indexOf(startMarker);
-  const endIndex = indexHtml.indexOf(endMarker, startIndex);
-  
-  if (startIndex !== -1 && endIndex !== -1) {
-    const newData = `const productsData = ${productsJson};`;
-    indexHtml = indexHtml.substring(0, startIndex) + newData + indexHtml.substring(endIndex + endMarker.length);
-    fs.writeFileSync(INDEX_PATH, indexHtml);
-    console.log('Successfully updated index.html with new products!');
-  } else {
-    console.error('Could not find productsData array in index.html');
+  const targetFiles = ['./index.html', './preview.html'];
+
+  for (const filePath of targetFiles) {
+    if (!fs.existsSync(filePath)) {
+      console.warn(`File ${filePath} not found, skipping...`);
+      continue;
+    }
+
+    let html = fs.readFileSync(filePath, 'utf8');
+    const startMarker = 'const productsData = [';
+    const endMarker = '];';
+    
+    const startIndex = html.indexOf(startMarker);
+    const endIndex = html.indexOf(endMarker, startIndex);
+    
+    if (startIndex !== -1 && endIndex !== -1) {
+      const newData = `const productsData = ${productsJson};`;
+      html = html.substring(0, startIndex) + newData + html.substring(endIndex + endMarker.length);
+      fs.writeFileSync(filePath, html);
+      console.log(`Successfully updated ${filePath} with new products!`);
+    } else {
+      console.error(`Could not find productsData array in ${filePath}`);
+    }
   }
 }
 
