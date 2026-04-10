@@ -1,7 +1,7 @@
-import fs from 'fs';
-import https from 'https';
-import path from 'path';
-import { URL } from 'url';
+const fs = require('fs');
+const https = require('https');
+const path = require('path');
+const { URL } = require('url');
 
 const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/1mLTaEXsMT3oOodS0wjvYpsfqOWPtsP4eiKBH2h8aeh8/export?format=csv';
 
