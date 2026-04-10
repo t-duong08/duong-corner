@@ -155,7 +155,8 @@ async function sync() {
     }
     
     console.log(`Processing: ${productName}`);
-    const image = await getShopeeImage(shopeeUrl);
+    const sheetImage = row['Link Ảnh'];
+    const image = sheetImage || await getShopeeImage(shopeeUrl);
     
     const rawCat = row['Ngành hàng'] || 'Khác';
     const mappedCat = categoryMap[rawCat] || rawCat;
