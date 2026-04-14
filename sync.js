@@ -179,6 +179,9 @@ async function sync() {
     return;
   }
 
+  // Reverse products so the newest additions (at the bottom of the sheet) appear first
+  products.reverse();
+
   const productsJson = JSON.stringify(products, null, 2);
   
   // 1. Update src/data.json (for Vite app)
